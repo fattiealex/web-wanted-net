@@ -1,0 +1,35 @@
+---
+id: "001"
+title: "Next.js 15: The High-Performance Engineering Protocol"
+date: "09_FEB_2026"
+preview: "A comprehensive technical dossier on architecting ultra-fast web applications using RSC, Streaming, and PPR."
+status: "DECRYPTED"
+---
+
+# [ CLASSIFIED_REPORT ]: NEXT.JS PERFORMANCE MASTERCLASS
+
+In the modern digital landscape, speed is the ultimate currency. A delay of 100ms in load time can result in a 7% drop in conversions. At **WebWanted**, we don't just build websites; we engineer high-frequency digital assets. This guide deconstructs the Next.js 15 architecture to help you achieve the elusive 100/100 Lighthouse score.
+
+## I. THE SHIFT TO SERVER-FIRST ARCHITECTURE (RSC)
+
+The introduction of **React Server Components (RSC)** changed the game. Previously, React was client-side heavy, forcing the browser to download, parse, and execute massive JavaScript bundles before the user could see anything.
+
+### The Zero-Bundle Impact
+With RSC, the component logic stays on the server. The client receives raw HTML and a tiny fraction of the JavaScript it used to. 
+* **Reduced TBT (Total Blocking Time):** Since there is less JS to execute, the main thread remains free.
+* **Data Fetching at the Source:** Fetching data inside a Server Component happens on the server’s backbone network, which is significantly faster than a mobile user’s 4G connection.
+
+## II. THE RENDERING STRATEGY: PPR & STREAMING
+
+### Partial Prerendering (PPR)
+Next.js 15 introduces **Partial Prerendering**. This allows you to combine static and dynamic content on the same route. 
+1.  **Static Shell:** The layout, navigation, and product descriptions are pre-rendered and served instantly from the Edge.
+2.  **Dynamic Holes:** Parts like "User Cart" or "Recommended for You" are streamed in as they become ready.
+
+### Streaming with Suspense
+Don't make your users stare at a blank screen. By wrapping heavy data-fetching components in `<Suspense>`, you allow the browser to render the "Static Shell" immediately while the "Dynamic" data streams in over a single HTTP connection.
+
+```tsx
+<Suspense fallback={<SkeletonTerminal />}>
+  <HeavyDataComponent />
+</Suspense>

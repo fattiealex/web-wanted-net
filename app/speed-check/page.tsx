@@ -16,6 +16,7 @@ export default function SpeedCheck() {
   const [data, setData] = useState<any>(null);
   const { toast } = useToast();
 
+  // Вземаме ключа от средата
   const apiKey = process.env.NEXT_PUBLIC_PAGESPEED_API_KEY;
 
   const handleScan = async (e: React.FormEvent) => {
@@ -32,28 +33,37 @@ export default function SpeedCheck() {
       const res = await fetch(apiUrl);
       const json = await res.json();
 
+      // ГРЕШКА 1: Проблем с API ключа или лимит
       if (json.error) throw new Error(json.error.message);
 
-      const scores = json.lighthouseResult.categories;
-      const audit = json.lighthouseResult.audits;
-      
-      const perfScore = scores.performance.score * 100;
-      const lcpValue = audit['largest-contentful-paint'].numericValue; 
+      // ГРЕШКА 2: Google не връща резултати (Защита)
+      const scores = json.lighthouseResult?.categories;
+      const audits = json.lighthouseResult?.audits;
+
+      if (!scores || !audits) {
+        throw new Error("INCOMPLETE_RESPONSE: Google Lighthouse failed to analyze this URL.");
+      }
+
+      // Безопасно извличане на Performance Score
+      const perfScore = (scores.performance?.score || 0) * 100;
+      const lcpValue = audits['largest-contentful-paint']?.numericValue || 0; 
       const isPassed = perfScore >= 90 && lcpValue < 2500;
 
       setData({
         performance: Math.round(perfScore),
-        accessibility: Math.round(scores.accessibility.score * 100),
-        bestPractices: Math.round(scores['best-practices'].score * 100),
-        seo: Math.round(scores.seo.score * 100),
-        lcp: audit['largest-contentful-paint'].displayValue,
-        cls: audit['cumulative-layout-shift'].displayValue,
-        fcp: audit['first-contentful-paint'].displayValue,
-        speedIndex: audit['speed-index'].displayValue,
+        accessibility: Math.round((scores.accessibility?.score || 0) * 100),
+        bestPractices: Math.round((scores['best-practices']?.score || 0) * 100),
+        seo: Math.round((scores.seo?.score || 0) * 100),
+        lcp: audits['largest-contentful-paint']?.displayValue || "N/A",
+        cls: audits['cumulative-layout-shift']?.displayValue || "N/A",
+        fcp: audits['first-contentful-paint']?.displayValue || "N/A",
+        speedIndex: audits['speed-index']?.displayValue || "N/A",
         passed: isPassed,
-        screenshot: json.lighthouseResult.audits['final-screenshot']?.details?.data 
+        screenshot: audits['final-screenshot']?.details?.data || null
       });
+
     } catch (error: any) {
+      console.error("DEBUG_LOG:", error);
       toast({
         title: "SCAN_FAILED",
         description: error.message || "Connection to Google API lost.",
@@ -66,7 +76,6 @@ export default function SpeedCheck() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#00ff41] font-mono p-4 md:p-10 selection:bg-[#00ff41] selection:text-black">
-      {/* ОСНОВЕН КОНТЕЙНЕР СЪС ЗАОБЛЕНИ ЪГЛИ И СТЪКЛЕН ЕФЕКТ */}
       <div className="max-w-6xl mx-auto border border-[#003b00] bg-zinc-950/50 backdrop-blur-xl p-8 shadow-[0_0_50px_-12px_rgba(0,255,65,0.15)] rounded-[2.5rem]">
         
         {/* TOP BAR */}
@@ -129,7 +138,6 @@ export default function SpeedCheck() {
         {data && !loading && (
           <div className="space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-1000">
             
-            {/* ASSESSMENT STATUS */}
             <div className={`p-8 rounded-[2rem] border-l-[12px] flex items-center justify-between shadow-xl ${data.passed ? 'border-green-500 bg-green-500/5' : 'border-red-600 bg-red-600/5'}`}>
               <div className="flex items-center gap-6">
                 <div className={`p-4 rounded-2xl ${data.passed ? 'bg-green-500/20 text-green-500' : 'bg-red-600/20 text-red-600'}`}>
@@ -145,7 +153,6 @@ export default function SpeedCheck() {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8">
-              {/* CIRCLE SCORES */}
               <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <ScoreCard label="PERFORMANCE" score={data.performance} />
                 <ScoreCard label="ACCESSIBILITY" score={data.accessibility} />
@@ -153,22 +160,20 @@ export default function SpeedCheck() {
                 <ScoreCard label="SEO" score={data.seo} />
               </div>
 
-              {/* LIVE SCREENSHOT */}
-              <div className="border border-[#003b00] bg-black rounded-[2rem] p-3 shadow-2xl group overflow-hidden">
+              <div className="border border-[#003b00] bg-black rounded-[2rem] p-3 shadow-2xl group overflow-hidden text-center">
                 <div className="flex items-center gap-2 mb-3 px-3 text-[10px] text-zinc-600 uppercase tracking-[0.2em] font-black">
                   <Eye size={12} className="text-[#00ff41]" /> Capture_01
                 </div>
                 <div className="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800">
                    {data.screenshot ? (
-                     <img src={data.screenshot} alt="Visual Capture" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" />
+                     <img src={data.screenshot} alt="Visual" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000" />
                    ) : (
-                     <div className="flex items-center justify-center h-full text-zinc-800 italic">NO_SIGNAL</div>
+                     <div className="flex items-center justify-center h-full text-zinc-800 italic text-[10px]">NO_SIGNAL</div>
                    )}
                 </div>
               </div>
             </div>
 
-            {/* SPECS AND TERMS GUIDE */}
             <div className="grid md:grid-cols-2 gap-8 border-t border-[#003b00]/30 pt-10">
               <div className="space-y-3 bg-black/40 p-8 rounded-[2rem] border border-[#003b00]/20 shadow-inner">
                 <h3 className="text-white text-xs font-black mb-6 flex items-center gap-2 tracking-[0.3em]">
@@ -180,18 +185,17 @@ export default function SpeedCheck() {
                 <MetricLine label="Speed Index" value={data.speedIndex} />
               </div>
 
-              <div className="bg-[#001a00]/30 p-8 rounded-[2rem] border border-[#00ff41]/10">
+              <div className="bg-[#001a00]/30 p-8 rounded-[2rem] border border-[#00ff41]/10 text-xs">
                 <h3 className="text-[#00ff41] text-xs font-black mb-6 flex items-center gap-2 tracking-[0.3em]">
                   <Info size={16} /> OPERATOR_GUIDE
                 </h3>
-                <div className="space-y-4 text-[11px] leading-relaxed text-zinc-500 font-medium">
-                  <p><strong className="text-white">[LCP]:</strong> Measures loading speed. Ideal: &lt; 2.5s.</p>
-                  <p><strong className="text-white">[CLS]:</strong> Measures visual stability. High values mean "jumpy" content.</p>
-                  <p><strong className="text-white">[TBT]:</strong> Measures responsiveness. Crucial for user interaction.</p>
+                <div className="space-y-4 text-zinc-500 font-medium">
+                  <p><strong className="text-white">[LCP]:</strong> Ideal: &lt; 2.5s.</p>
+                  <p><strong className="text-white">[CLS]:</strong> Measures visual stability.</p>
+                  <p><strong className="text-white">[TBT]:</strong> Measures responsiveness.</p>
                 </div>
               </div>
             </div>
-
           </div>
         )}
       </div>
@@ -203,7 +207,7 @@ function ScoreCard({ label, score }: { label: string, score: number }) {
   const color = score >= 90 ? "text-[#00ff41]" : score >= 50 ? "text-yellow-500" : "text-red-600";
   return (
     <div className="border border-[#003b00]/50 p-6 rounded-[2rem] text-center bg-black/40 hover:border-[#00ff41] transition-all duration-500 group">
-      <div className={`text-5xl font-black mb-2 transition-transform group-hover:scale-110 ${color}`}>{score}</div>
+      <div className={`text-4xl font-black mb-2 transition-transform group-hover:scale-110 ${color}`}>{score}</div>
       <div className="text-[9px] text-zinc-600 font-black tracking-[0.2em] uppercase">{label}</div>
     </div>
   );
