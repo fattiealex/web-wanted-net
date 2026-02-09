@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Monitor, Smartphone, Terminal, Activity, ShieldCheck, ShieldAlert, Info, Zap, Eye, BarChart3 } from "lucide-react";
+import { 
+  Monitor, Smartphone, Terminal, Activity, ShieldCheck, 
+  ShieldAlert, Info, Zap, Eye, BarChart3, Search 
+} from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function SpeedCheck() {
@@ -34,9 +37,8 @@ export default function SpeedCheck() {
       const scores = json.lighthouseResult.categories;
       const audit = json.lighthouseResult.audits;
       
-      // Core Web Vitals Logic: Generally, if Performance is > 90 and LCP is healthy, it's a "Pass"
       const perfScore = scores.performance.score * 100;
-      const lcpValue = audit['largest-contentful-paint'].numericValue; // in ms
+      const lcpValue = audit['largest-contentful-paint'].numericValue; 
       const isPassed = perfScore >= 90 && lcpValue < 2500;
 
       setData({
@@ -63,67 +65,82 @@ export default function SpeedCheck() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-[#00ff41] font-mono p-4 md:p-10">
-      <div className="max-w-6xl mx-auto border border-[#003b00] bg-zinc-950 p-6 shadow-2xl">
+    <div className="min-h-screen bg-[#050505] text-[#00ff41] font-mono p-4 md:p-10 selection:bg-[#00ff41] selection:text-black">
+      {/* ОСНОВЕН КОНТЕЙНЕР СЪС ЗАОБЛЕНИ ЪГЛИ И СТЪКЛЕН ЕФЕКТ */}
+      <div className="max-w-6xl mx-auto border border-[#003b00] bg-zinc-950/50 backdrop-blur-xl p-8 shadow-[0_0_50px_-12px_rgba(0,255,65,0.15)] rounded-[2.5rem]">
         
         {/* TOP BAR */}
-        <div className="flex items-center justify-between mb-8 border-b border-[#003b00] pb-4">
-          <div className="flex items-center gap-2">
-            <Terminal size={18} />
-            <span className="text-xs font-bold tracking-[0.2em] text-white">WEB_WANTED // SPEED_DIAGNOSTICS_V3</span>
+        <div className="flex items-center justify-between mb-10 border-b border-[#003b00]/30 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-[#00ff41]/10 rounded-xl">
+              <Terminal size={20} className="text-[#00ff41]" />
+            </div>
+            <span className="text-sm font-black tracking-[0.3em] text-white uppercase italic">Web_Wanted // Speed_Lab_v3</span>
           </div>
-          <div className="hidden md:block text-[10px] text-zinc-600 tracking-tighter">
-            ENCRYPTION: AES-256 // STATUS: SECURE
+          <div className="hidden md:block text-[10px] text-zinc-600 tracking-widest font-bold">
+            STATUS: <span className="text-[#00ff41] animate-pulse">SECURE_CONNECTION</span>
           </div>
         </div>
 
         {/* URL INPUT */}
-        <form onSubmit={handleScan} className="flex flex-col md:flex-row gap-4 mb-10">
-          <div className="relative flex-1">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-[#003b00]" size={18} />
+        <form onSubmit={handleScan} className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#003b00] group-focus-within:text-[#00ff41] transition-colors" size={20} />
             <Input 
-              placeholder="ENTER_TARGET_DOMAIN_FOR_ANALYSIS..." 
-              className="bg-black border-[#003b00] text-[#00ff41] pl-10 h-12 rounded-none focus-visible:ring-[#00ff41] placeholder:text-zinc-800"
+              placeholder="ENTER_TARGET_DOMAIN..." 
+              className="bg-black/50 border-[#003b00] text-[#00ff41] pl-12 h-14 rounded-2xl focus-visible:ring-1 focus-visible:ring-[#00ff41] placeholder:text-zinc-800 text-lg transition-all"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={loading} className="bg-[#00ff41] hover:bg-white text-black h-12 px-12 font-black rounded-none transition-colors">
-            {loading ? "ANALYZING..." : "INITIALIZE"}
+          <Button type="submit" disabled={loading} className="bg-[#00ff41] hover:bg-white text-black h-14 px-10 font-black rounded-2xl transition-all active:scale-95 shadow-lg shadow-[#00ff41]/10">
+            {loading ? "ANALYZING..." : "INITIALIZE SCAN"}
           </Button>
         </form>
 
         {/* DEVICE SELECTOR */}
-        <div className="flex gap-4 mb-12">
-          <button onClick={() => setStrategy('mobile')} className={`flex items-center gap-2 px-6 py-2 border transition-all ${strategy === 'mobile' ? 'bg-[#00ff41] text-black border-[#00ff41]' : 'border-[#003b00] text-[#003b00] hover:text-[#00ff41]'}`}>
-            <Smartphone size={16} /> MOBILE
+        <div className="flex gap-3 mb-12">
+          <button 
+            type="button"
+            onClick={() => setStrategy('mobile')} 
+            className={`flex items-center gap-2 px-8 py-3 rounded-xl border font-bold text-xs tracking-widest transition-all ${strategy === 'mobile' ? 'bg-[#00ff41] text-black border-[#00ff41] shadow-lg shadow-[#00ff41]/20' : 'border-[#003b00] text-zinc-500 hover:border-[#00ff41] hover:text-[#00ff41]'}`}
+          >
+            <Smartphone size={14} /> MOBILE
           </button>
-          <button onClick={() => setStrategy('desktop')} className={`flex items-center gap-2 px-6 py-2 border transition-all ${strategy === 'desktop' ? 'bg-[#00ff41] text-black border-[#00ff41]' : 'border-[#003b00] text-[#003b00] hover:text-[#00ff41]'}`}>
-            <Monitor size={16} /> DESKTOP
+          <button 
+            type="button"
+            onClick={() => setStrategy('desktop')} 
+            className={`flex items-center gap-2 px-8 py-3 rounded-xl border font-bold text-xs tracking-widest transition-all ${strategy === 'desktop' ? 'bg-[#00ff41] text-black border-[#00ff41] shadow-lg shadow-[#00ff41]/20' : 'border-[#003b00] text-zinc-500 hover:border-[#00ff41] hover:text-[#00ff41]'}`}
+          >
+            <Monitor size={14} /> DESKTOP
           </button>
         </div>
 
         {loading && (
-          <div className="py-24 text-center space-y-4">
-            <Activity className="mx-auto animate-spin text-[#00ff41]" size={50} />
-            <p className="text-xl tracking-[0.4em] animate-pulse">INTERCEPTING_PACKETS...</p>
+          <div className="py-32 text-center space-y-6">
+            <div className="relative inline-block">
+                <Activity className="mx-auto animate-spin text-[#00ff41] opacity-20" size={80} />
+                <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#00ff41] animate-pulse" size={30} />
+            </div>
+            <p className="text-xl tracking-[0.5em] font-black italic animate-pulse text-white">INTERCEPTING_DATA_STREAM...</p>
           </div>
         )}
 
         {data && !loading && (
-          <div className="space-y-12 animate-in fade-in zoom-in duration-500">
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-1000">
             
             {/* ASSESSMENT STATUS */}
-            <div className={`p-6 border-l-8 flex items-center justify-between ${data.passed ? 'border-green-500 bg-green-950/10' : 'border-red-600 bg-red-950/10'}`}>
-              <div className="flex items-center gap-4">
-                {data.passed ? <ShieldCheck size={32} className="text-green-500" /> : <ShieldAlert size={32} className="text-red-600" />}
-                <div>
-                  <h2 className="text-2xl font-black text-white tracking-tighter">Core Web Vitals Assessment</h2>
-                  <p className={`text-sm ${data.passed ? 'text-green-500' : 'text-red-500'}`}>Target host has {data.passed ? 'PASSED' : 'FAILED'} the performance audit.</p>
+            <div className={`p-8 rounded-[2rem] border-l-[12px] flex items-center justify-between shadow-xl ${data.passed ? 'border-green-500 bg-green-500/5' : 'border-red-600 bg-red-600/5'}`}>
+              <div className="flex items-center gap-6">
+                <div className={`p-4 rounded-2xl ${data.passed ? 'bg-green-500/20 text-green-500' : 'bg-red-600/20 text-red-600'}`}>
+                    {data.passed ? <ShieldCheck size={40} /> : <ShieldAlert size={40} />}
                 </div>
-              </div>
-              <div className="hidden md:block text-4xl font-black opacity-20 uppercase tracking-widest">
-                {data.passed ? 'Verified' : 'Critical'}
+                <div>
+                  <h2 className="text-3xl font-black text-white tracking-tighter uppercase italic">Diagnostic_Report</h2>
+                  <p className={`text-sm font-bold tracking-widest mt-1 ${data.passed ? 'text-green-500' : 'text-red-500'}`}>
+                    TARGET_HOST: {data.passed ? 'OPTIMIZED_PASS' : 'CRITICAL_FAILURE'}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -132,48 +149,45 @@ export default function SpeedCheck() {
               <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <ScoreCard label="PERFORMANCE" score={data.performance} />
                 <ScoreCard label="ACCESSIBILITY" score={data.accessibility} />
-                <ScoreCard label="BEST_PRACTICES" score={data.bestPractices} />
+                <ScoreCard label="PRACTICES" score={data.bestPractices} />
                 <ScoreCard label="SEO" score={data.seo} />
               </div>
 
               {/* LIVE SCREENSHOT */}
-              <div className="border border-[#003b00] bg-black p-2 shadow-xl group">
-                <div className="flex items-center gap-2 mb-2 px-2 text-[10px] text-zinc-600 uppercase tracking-widest">
-                  <Eye size={12} /> Target_Visual_Capture
+              <div className="border border-[#003b00] bg-black rounded-[2rem] p-3 shadow-2xl group overflow-hidden">
+                <div className="flex items-center gap-2 mb-3 px-3 text-[10px] text-zinc-600 uppercase tracking-[0.2em] font-black">
+                  <Eye size={12} className="text-[#00ff41]" /> Capture_01
                 </div>
-                <div className="relative aspect-video bg-zinc-900 overflow-hidden">
+                <div className="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800">
                    {data.screenshot ? (
-                     <img src={data.screenshot} alt="Visual Capture" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" />
+                     <img src={data.screenshot} alt="Visual Capture" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" />
                    ) : (
-                     <div className="flex items-center justify-center h-full text-zinc-800">NO_IMAGE_SIGNAL</div>
+                     <div className="flex items-center justify-center h-full text-zinc-800 italic">NO_SIGNAL</div>
                    )}
                 </div>
               </div>
             </div>
 
             {/* SPECS AND TERMS GUIDE */}
-            <div className="grid md:grid-cols-2 gap-8 border-t border-[#003b00] pt-10">
-              {/* Technical Metrics */}
-              <div className="space-y-4 bg-black/40 p-6 border border-[#003b00]/30">
-                <h3 className="text-white text-xs font-bold mb-6 flex items-center gap-2">
-                  <BarChart3 size={14} className="text-[#00ff41]" /> DETAILED_METRICS
+            <div className="grid md:grid-cols-2 gap-8 border-t border-[#003b00]/30 pt-10">
+              <div className="space-y-3 bg-black/40 p-8 rounded-[2rem] border border-[#003b00]/20 shadow-inner">
+                <h3 className="text-white text-xs font-black mb-6 flex items-center gap-2 tracking-[0.3em]">
+                  <BarChart3 size={16} className="text-[#00ff41]" /> DATA_LOG
                 </h3>
-                <MetricLine label="Largest Contentful Paint (LCP)" value={data.lcp} />
-                <MetricLine label="First Contentful Paint (FCP)" value={data.fcp} />
-                <MetricLine label="Cumulative Layout Shift (CLS)" value={data.cls} />
+                <MetricLine label="Largest Contentful Paint" value={data.lcp} />
+                <MetricLine label="First Contentful Paint" value={data.fcp} />
+                <MetricLine label="Cumulative Layout Shift" value={data.cls} />
                 <MetricLine label="Speed Index" value={data.speedIndex} />
               </div>
 
-              {/* TERMINOLOGY GUIDE */}
-              <div className="bg-[#001a00] p-6 border border-[#00ff41]/20">
-                <h3 className="text-[#00ff41] text-xs font-bold mb-4 flex items-center gap-2">
-                  <Info size={14} /> FIELD_GUIDE
+              <div className="bg-[#001a00]/30 p-8 rounded-[2rem] border border-[#00ff41]/10">
+                <h3 className="text-[#00ff41] text-xs font-black mb-6 flex items-center gap-2 tracking-[0.3em]">
+                  <Info size={16} /> OPERATOR_GUIDE
                 </h3>
-                <div className="space-y-4 text-[11px] leading-relaxed text-zinc-400">
-                  <p><strong className="text-white uppercase">[LCP]:</strong> Measures loading performance. For a good user experience, LCP should occur within 2.5 seconds.</p>
-                  <p><strong className="text-white uppercase">[CLS]:</strong> Measures visual stability. It quantifies how much the content shifts on the screen.</p>
-                  <p><strong className="text-white uppercase">[Accessibility]:</strong> Evaluates how well users with assistive technologies (like screen readers) can navigate your site.</p>
-                  <p><strong className="text-white uppercase">[SEO]:</strong> Scans for proper metadata, crawlability, and mobile-friendliness for search engine ranking.</p>
+                <div className="space-y-4 text-[11px] leading-relaxed text-zinc-500 font-medium">
+                  <p><strong className="text-white">[LCP]:</strong> Measures loading speed. Ideal: &lt; 2.5s.</p>
+                  <p><strong className="text-white">[CLS]:</strong> Measures visual stability. High values mean "jumpy" content.</p>
+                  <p><strong className="text-white">[TBT]:</strong> Measures responsiveness. Crucial for user interaction.</p>
                 </div>
               </div>
             </div>
@@ -185,28 +199,21 @@ export default function SpeedCheck() {
   );
 }
 
-// UI HELPER COMPONENTS
 function ScoreCard({ label, score }: { label: string, score: number }) {
   const color = score >= 90 ? "text-[#00ff41]" : score >= 50 ? "text-yellow-500" : "text-red-600";
   return (
-    <div className="border border-[#003b00] p-4 text-center bg-zinc-950">
-      <div className={`text-4xl font-black mb-1 ${color}`}>{score}</div>
-      <div className="text-[9px] text-zinc-600 font-bold tracking-widest">{label}</div>
+    <div className="border border-[#003b00]/50 p-6 rounded-[2rem] text-center bg-black/40 hover:border-[#00ff41] transition-all duration-500 group">
+      <div className={`text-5xl font-black mb-2 transition-transform group-hover:scale-110 ${color}`}>{score}</div>
+      <div className="text-[9px] text-zinc-600 font-black tracking-[0.2em] uppercase">{label}</div>
     </div>
   );
 }
 
 function MetricLine({ label, value }: { label: string, value: string }) {
   return (
-    <div className="flex justify-between border-b border-[#003b00]/20 py-2 text-xs">
-      <span className="text-zinc-500">{label}</span>
-      <span className="text-white font-mono">{value}</span>
+    <div className="flex justify-between border-b border-[#003b00]/10 py-3 text-xs">
+      <span className="text-zinc-500 font-bold">{label}</span>
+      <span className="text-white font-black italic">{value}</span>
     </div>
-  );
-}
-
-function SearchIcon(props: any) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
   );
 }
