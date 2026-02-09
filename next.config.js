@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  //output: "export",
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -16,9 +15,7 @@ const nextConfig = {
       },
     ],
   },
-  // For GitHub Pages deployment
-  basePath: process.env.NODE_ENV === "production" ? "" : "",
-  trailingSlash: true,
+  // ТУК ИЗТРИЙ basePath И trailingSlash
 }
 
 module.exports = nextConfig
