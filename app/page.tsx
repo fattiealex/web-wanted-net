@@ -22,6 +22,8 @@ export default function Home() {
       return
     }
     setIsSubmitting(true)
+    
+    // Simulate API delay
     setTimeout(() => {
       toast({
         title: "[ ACCESS_GRANTED ]",
@@ -44,7 +46,7 @@ export default function Home() {
                 <Activity size={14} /> $ INITIALIZING_WANTED_PROTOCOL_V3
               </div>
               
-              <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.85] tracking-tighter text-white uppercase italic">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.85] tracking-tighter text-white uppercase italic">
                 Engineering <br className="hidden sm:block"/> 
                 The_<span className="text-[#00ff41]">Cyber</span>_Future
               </h1>
@@ -71,7 +73,7 @@ export default function Home() {
             <div className="order-1 lg:order-2 relative h-[200px] sm:h-[300px] md:h-[450px] border-2 border-[#00ff41]/20 bg-zinc-950 group overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?q=80&w=1200&h=800&auto=format&fit=crop"
-                alt="Visualization"
+                alt="System Visualization"
                 fill
                 priority
                 className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-40 group-hover:opacity-100"
@@ -97,7 +99,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <FeaturedCard
               title="Optimizing Medusa: Headless E-commerce"
-              description="How we built Agkbeatz using Medusa and why headless is the future of retail."
+              description="Building high-performance headless retail environments with custom logic."
               image="https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=600&h=400&auto=format&fit=crop"
               date="09_FEB_2026"
               category="E-COMMERCE"
@@ -106,7 +108,7 @@ export default function Home() {
             />
              <FeaturedCard
               title="Next.js App Router: Performance Guide"
-              description="Migrating to the App Router for superior Core Web Vitals and LCP scores."
+              description="Maximizing Core Web Vitals using advanced server component patterns."
               image="https://images.unsplash.com/photo-1614853316476-de00d14cb1fc?q=80&w=600&h=400&auto=format&fit=crop"
               date="24_JAN_2026"
               category="PERFORMANCE"
@@ -115,7 +117,7 @@ export default function Home() {
             />
              <FeaturedCard
               title="Diagnostic Tooling with PageSpeed"
-              description="Building automated speed checks using Google's Lighthouse API."
+              description="Automating audit pipelines with Google Lighthouse API integration."
               image="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&h=400&auto=format&fit=crop"
               date="12_DEC_2025"
               category="SYSTEM"
@@ -165,10 +167,10 @@ export default function Home() {
             <Link href="https://github.com/fattiealex" target="_blank" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
               <Github size={14} /> [ GITHUB ]
             </Link>
-            <Link href="https://upwork.com" target="_blank" className="text-zinc-600 hover:text-orange-500 transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
+            <Link href="#" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
                [ UPWORK ]
             </Link>
-            <Link href="mailto:contact@webwanted.net" className="text-zinc-600 hover:text-pink-500 transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
+            <Link href="mailto:contact@webwanted.net" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
                [ EMAIL ]
             </Link>
           </div>
@@ -184,10 +186,10 @@ export default function Home() {
 function FeaturedCard({ title, description, image, date, category, icon, slug }: any) {
   return (
     <div className="bg-black border-2 border-zinc-900 hover:border-[#00ff41]/50 transition-all duration-500 group relative flex flex-col h-full">
-      <div className="relative h-40 md:h-52 overflow-hidden border-b border-zinc-900">
+      <div className="relative h-48 md:h-52 overflow-hidden border-b border-zinc-900">
         <Image src={image} alt={title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
       </div>
-      <div className="p-5 md:p-8 flex flex-col flex-1">
+      <div className="p-6 md:p-8 flex flex-col flex-1">
         <div className="flex items-center gap-2 text-[8px] md:text-[9px] font-black text-pink-500 mb-3 tracking-widest uppercase">
           {icon} <span>LOG::{date}</span>
         </div>
