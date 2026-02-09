@@ -1,76 +1,57 @@
-import React from "react";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Terminal, ChevronLeft, Clock } from "lucide-react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-// Динамичен импорт без SSR, за да избегнем грешката с 'fs' в браузъра
-const ReadingProgressBar = dynamic(() => import("@/components/ReadingProgressBar"), { 
-  ssr: false 
-});
+import { notFound } from "next/navigation";
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const postPath = path.join(process.cwd(), "content/blog", `${slug}.mdx`);
-  
+
   // Проверка дали файлът съществува
   if (!fs.existsSync(postPath)) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center font-mono p-10">
-        <div className="text-[#00ff41] border border-[#00ff41] p-10 uppercase tracking-[0.5em] animate-pulse text-center">
-          [ 404_DATA_CORRUPTION_DETECTED ]
-        </div>
-      </div>
-    );
+    return notFound();
   }
 
-  const fileContent = fs.readFileSync(postPath, "utf-8");
-  const { data: frontmatter, content } = matter(fileContent);
+  const fileContent = fs.readFileSync(postPath, "utf8");
+  const { data, content } = matter(fileContent);
 
   return (
-    <article className="min-h-screen bg-[#050505] text-[#00ff41] font-mono p-4 md:p-12 selection:bg-[#00ff41] selection:text-black">
-      <ReadingProgressBar />
-
-      <div className="max-w-4xl mx-auto pt-10">
-        <Link 
-          href="/wanted-insights" 
-          className="inline-flex items-center gap-2 text-zinc-600 hover:text-[#00ff41] mb-12 text-[10px] font-black uppercase tracking-widest transition-colors group"
-        >
-          <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-all" /> 
-          [ BACK_TO_DATABASE ]
-        </Link>
-
-        <header className="border-l-4 border-[#00ff41] pl-8 mb-16 space-y-6">
-          <div className="flex gap-6 text-[10px] font-black text-zinc-600 uppercase tracking-widest">
-            <span className="flex items-center gap-2">
-              <Clock size={12}/> {frontmatter.date || "2024-02-09"}
-            </span>
-            <span className="flex items-center gap-2 text-pink-500">
-              <Terminal size={12}/> ID: {frontmatter.id || slug}
-            </span>
-          </div>
+    <article className="min-h-screen bg-black text-white font-mono selection:bg-[#00ff41] selection:text-black pb-20">
+      <header className="border-b border-[#00ff41]/20 py-12 md:py-20 bg-zinc-950/50">
+        <div className="container mx-auto px-4">
+          <Link href="/wanted-insights" className="text-[#00ff41] text-[10px] uppercase tracking-[0.3em] flex items-center gap-2 mb-8 hover:underline">
+            <ChevronLeft size={14} /> [ BACK_TO_DATABASE ]
+          </Link>
           
-          <h1 className="text-4xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-[0.9]">
-            {frontmatter.title}
-          </h1>
-          
-          <p className="text-zinc-500 text-sm italic border-t border-zinc-900 pt-4 uppercase">
-            {frontmatter.preview}
-          </p>
-        </header>
-
-        <div className="prose prose-invert prose-green max-w-none pb-32">
-          <div className="whitespace-pre-wrap leading-relaxed text-zinc-400 text-lg">
-            {content}
+          <div className="space-y-4">
+            <div className="flex items-center gap-4 text-pink-500 text-[10px] font-black tracking-widest uppercase">
+              <span className="bg-pink-500/10 px-2 py-1 border border-pink-500/20">{data.category || "INTEL"}</span>
+              <span className="flex items-center gap-2"><Clock size={12}/> {data.date}</span>
+            </div>
+            <h1 className="text-4xl md:text-7xl font-black uppercase italic leading-[0.9] tracking-tighter">
+              {data.title}
+            </h1>
           </div>
         </div>
+      </header>
 
-        <footer className="py-10 border-t border-zinc-900/50 text-[10px] text-zinc-800 uppercase italic flex justify-between">
-          <span>Source: Secure_Node_v4</span>
-          <span className="text-[#00ff41]/10">End of Transmission</span>
-        </footer>
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-3xl mx-auto">
+          <div className="prose prose-invert prose-green max-w-none prose-p:text-zinc-400 prose-p:uppercase prose-p:text-xs prose-p:font-bold prose-headings:italic prose-headings:tracking-tighter prose-headings:uppercase">
+            {/* Тук съдържанието се рендерира като текст. Ако ползваш MDXRemote, го добави тук */}
+            <div className="whitespace-pre-wrap leading-relaxed">
+              {content}
+            </div>
+          </div>
+          
+          <div className="mt-20 pt-10 border-t border-zinc-900">
+            <div className="text-[10px] text-zinc-600 uppercase tracking-[0.5em]">
+              EOF_DATA_TRANSMISSION // {slug}_LOG
+            </div>
+          </div>
+        </div>
       </div>
     </article>
   );
