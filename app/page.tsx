@@ -326,13 +326,13 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                  <span>ameyaudeshmukh@gmail.com</span>
+                  <span>contact@webwanted.net</span>
                 </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-6 text-sm text-gray-400">
-            <p>© {new Date().getFullYear()} NeuralPulse. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} webwanted.NET © 2026 All rights reserved.</p>
           </div>
         </div>
       </footer>
