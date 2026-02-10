@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Smartphone, Monitor, Search, Zap, Activity, ShieldCheck, AlertTriangle } from "lucide-react";
+import { Smartphone, Monitor, Search, Zap, Activity, ShieldCheck, Globe, BarChart3, ExternalLink } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function SpeedCheck() {
@@ -17,12 +17,10 @@ export default function SpeedCheck() {
     setLoading(true);
     setData(null);
 
-    // Използва ключа от .env.local (image_87929a.png)
     const apiKey = process.env.NEXT_PUBLIC_PAGESPEED_API_KEY;
 
     try {
       const targetUrl = url.startsWith('http') ? url : `https://${url}`;
-      // Заявка към всички категории за пълни данни (image_878a9d.png)
       const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${targetUrl}&strategy=${strategy}&category=performance&category=accessibility&category=best-practices&category=seo${apiKey ? `&key=${apiKey}` : ""}`;
       
       const res = await fetch(apiUrl);
@@ -44,7 +42,7 @@ export default function SpeedCheck() {
       });
     } catch (err: any) {
       toast({ 
-        title: "SYSTEM_ERROR", 
+        title: "[ SYSTEM_ERROR ]", 
         description: err.message, 
         variant: "destructive" 
       });
@@ -54,50 +52,80 @@ export default function SpeedCheck() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono p-4 md:p-10 selection:bg-[#00ff41] selection:text-black">
+    <div className="min-h-screen bg-black text-white font-mono p-4 md:p-10 selection:bg-[#00ff41] selection:text-black pt-24">
       <div className="max-w-6xl mx-auto space-y-10">
         
-        {/* HEADER SECTION */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-zinc-900 pb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="h-3 w-3 rounded-full bg-[#00ff41] animate-ping" />
-              <span className="text-[10px] font-black tracking-[0.5em] text-[#00ff41]">CORE_ENGINE_V2</span>
+        {/* HEADER SECTION WITH GOOGLE TRUST */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-zinc-900 pb-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-[#00ff41] animate-ping" />
+              <span className="text-[10px] font-black tracking-[0.5em] text-[#00ff41]">PROTOCOL_LEVEL_9 // DIAGNOSTICS</span>
             </div>
-            <h1 className="text-5xl font-black italic tracking-tighter uppercase leading-none">Wanted_Audit</h1>
+            
+            <div className="flex flex-wrap items-center gap-4">
+              <h1 className="text-5xl md:text-7xl font-[900] italic tracking-tighter uppercase leading-none text-white">
+                WANTED_<span className="text-[#00ff41]">AUDIT</span>
+              </h1>
+              
+              {/* GOOGLE API BADGE */}
+              <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-3 py-1.5 rounded-sm">
+                <div className="flex gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#4285F4]"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#EA4335]"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#FBBC05]"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#34A853]"></div>
+                </div>
+                <span className="text-[9px] text-zinc-400 font-black tracking-widest uppercase">
+                  Google PageSpeed API
+                </span>
+              </div>
+            </div>
+
+            <p className="text-zinc-500 text-[10px] md:text-xs max-w-xl font-bold uppercase leading-relaxed border-l-2 border-[#00ff41] pl-4">
+              // Direct encrypted link established with <span className="text-white underline decoration-[#00ff41]">Google Lighthouse Engine</span>. 
+              Real-time performance data pulled from official PageSpeed V5 databases.
+            </p>
           </div>
-          <p className="text-zinc-600 text-[10px] font-bold tracking-widest max-w-[200px]">AUTHORIZED_SCAN_ONLY // PROTOCOL_LEVEL_9</p>
         </div>
 
         {/* INPUT CONTROL PANEL */}
-        <div className="bg-zinc-950 border border-zinc-800 p-2 rounded-[2.5rem] flex flex-col lg:flex-row gap-2 shadow-2xl">
+        <div className="bg-zinc-950 border-2 border-zinc-900 p-2 flex flex-col lg:flex-row gap-2 shadow-2xl group transition-all hover:border-[#00ff41]/30">
           <div className="relative flex-1 group">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-700 group-focus-within:text-[#00ff41] transition-colors" size={20} />
             <input 
-              className="w-full bg-transparent border-none py-5 pl-16 pr-6 text-[#00ff41] text-lg outline-none placeholder:text-zinc-800 font-bold italic"
+              className="w-full bg-transparent border-none py-5 pl-16 pr-6 text-[#00ff41] text-lg outline-none placeholder:text-zinc-800 font-black italic uppercase"
               placeholder="ENTER_TARGET_URL..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
-          <div className="flex bg-black p-1 rounded-full border border-zinc-900">
-             <button onClick={() => setStrategy('mobile')} className={`flex items-center gap-2 px-8 py-4 rounded-full text-[11px] font-black uppercase transition-all ${strategy === 'mobile' ? 'bg-[#00ff41] text-black shadow-[0_0_20px_rgba(0,255,65,0.4)]' : 'text-zinc-600 hover:text-zinc-400'}`}>
-                <Smartphone size={16}/> Mobile
+          <div className="flex bg-black p-1 border border-zinc-900">
+             <button onClick={() => setStrategy('mobile')} className={`flex items-center gap-2 px-6 py-4 text-[10px] font-black uppercase transition-all ${strategy === 'mobile' ? 'bg-[#00ff41] text-black shadow-[0_0_20px_rgba(0,255,65,0.2)]' : 'text-zinc-600 hover:text-zinc-400'}`}>
+                <Smartphone size={14}/> Mobile
              </button>
-             <button onClick={() => setStrategy('desktop')} className={`flex items-center gap-2 px-8 py-4 rounded-full text-[11px] font-black uppercase transition-all ${strategy === 'desktop' ? 'bg-[#00ff41] text-black shadow-[0_0_20px_rgba(0,255,65,0.4)]' : 'text-zinc-600 hover:text-zinc-400'}`}>
-                <Monitor size={16}/> Desktop
+             <button onClick={() => setStrategy('desktop')} className={`flex items-center gap-2 px-6 py-4 text-[10px] font-black uppercase transition-all ${strategy === 'desktop' ? 'bg-[#00ff41] text-black shadow-[0_0_20px_rgba(0,255,65,0.2)]' : 'text-zinc-600 hover:text-zinc-400'}`}>
+                <Monitor size={14}/> Desktop
              </button>
           </div>
-          <button onClick={handleScan} disabled={loading} className="lg:w-auto bg-white text-black font-black px-12 py-5 rounded-full hover:bg-[#00ff41] transition-all uppercase italic text-sm active:scale-95 disabled:opacity-50">
-            {loading ? "BREACHING..." : "ANALYZE_TARGET"}
+          <button onClick={handleScan} disabled={loading} className="lg:w-auto bg-white text-black font-[1000] px-12 py-5 hover:bg-[#00ff41] transition-all uppercase italic text-sm active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
+            {loading ? <><Activity className="animate-spin" size={16}/> BREACHING...</> : "EXECUTE_SCAN"}
           </button>
         </div>
 
+        {!data && !loading && (
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-40 py-10">
+                <TrustBox icon={<ShieldCheck size={20}/>} title="OFFICIAL_API" desc="Certified metrics directly from Google's core infrastructure." />
+                <TrustBox icon={<Zap size={20}/>} title="LIVE_LOAD" desc="Real-world simulation of user experience & load speeds." />
+                <TrustBox icon={<BarChart3 size={20}/>} title="CORE_VITALS" desc="Detailed analysis of LCP, CLS and Total Blocking Time." />
+             </div>
+        )}
+
         {data && (
-          <div className="space-y-10 animate-in fade-in zoom-in duration-1000">
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-1000">
             
-            {/* GOOGLE CIRCLE INDICATORS (image_878a9d.png) */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-zinc-950/30 border border-zinc-900 p-12 rounded-[3.5rem] backdrop-blur-3xl">
+            {/* GOOGLE CIRCLE INDICATORS */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-zinc-950/50 border-2 border-zinc-900 p-8 md:p-12">
                <ScoreCircle label="Performance" score={data.scores.perf} />
                <ScoreCircle label="Accessibility" score={data.scores.acc} />
                <ScoreCircle label="Best Practices" score={data.scores.bp} />
@@ -105,44 +133,62 @@ export default function SpeedCheck() {
             </div>
 
             {/* DATA GRID */}
-            <div className="grid lg:grid-cols-12 gap-8">
+            <div className="grid lg:grid-cols-12 gap-8 font-mono">
               {/* METRICS PANEL */}
-              <div className="lg:col-span-8 bg-zinc-950 border border-zinc-900 p-10 rounded-[3.5rem] space-y-12">
+              <div className="lg:col-span-8 bg-zinc-950 border border-zinc-900 p-8 space-y-12">
                 <div className="flex items-center justify-between border-b border-zinc-900 pb-6">
                   <div className="flex items-center gap-3">
-                    <Activity size={20} className="text-[#00ff41]"/>
-                    <h3 className="text-white text-xs font-black tracking-[0.3em] uppercase italic">Diagnostic_Data_Stream</h3>
+                    <Activity size={18} className="text-[#00ff41]"/>
+                    <h3 className="text-white text-[10px] font-black tracking-[0.3em] uppercase italic">Diagnostic_Data_Stream</h3>
                   </div>
-                  <span className="text-[10px] text-zinc-700 font-mono">STATUS: VALIDATED</span>
+                  <span className="text-[9px] text-[#00ff41] font-black border border-[#00ff41]/30 px-2 py-0.5">STATUS: VALIDATED_BY_GOOGLE</span>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
+                <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
                   <MetricBar label="First Contentful Paint" audit={data.metrics['first-contentful-paint']} />
                   <MetricBar label="Largest Contentful Paint" audit={data.metrics['largest-contentful-paint']} />
                   <MetricBar label="Total Blocking Time" audit={data.metrics['total-blocking-time']} />
                   <MetricBar label="Cumulative Layout Shift" audit={data.metrics['cumulative-layout-shift']} />
                   <MetricBar label="Speed Index" audit={data.metrics['speed-index']} />
+                  <MetricBar label="Time to Interactive" audit={data.metrics['interactive']} />
                 </div>
               </div>
 
               {/* LIVE SCREENSHOT PREVIEW */}
-              <div className="lg:col-span-4 bg-zinc-950 border border-zinc-900 rounded-[3.5rem] p-6 flex flex-col group overflow-hidden relative">
-                <div className="absolute top-8 left-8 z-10 bg-black/80 backdrop-blur-md border border-zinc-800 px-3 py-1 rounded-full">
-                  <span className="text-[8px] font-black text-[#00ff41] uppercase tracking-widest">Target_View</span>
+              <div className="lg:col-span-4 bg-zinc-950 border border-zinc-900 p-4 flex flex-col group overflow-hidden relative">
+                <div className="absolute top-6 left-6 z-10 bg-black/80 backdrop-blur-md border border-zinc-800 px-3 py-1 rounded-sm">
+                  <span className="text-[8px] font-[1000] text-[#00ff41] uppercase tracking-[0.2em]">Target_Visualization</span>
                 </div>
-                <div className="flex-1 relative rounded-[2rem] overflow-hidden border border-zinc-900 bg-black">
+                <div className="flex-1 relative overflow-hidden border border-zinc-900 bg-black min-h-[400px]">
                   <img src={data.screenshot} className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" alt="Result" />
                 </div>
               </div>
             </div>
           </div>
         )}
+        
+        {/* PAGE FOOTER */}
+        <div className="pt-20 border-t border-zinc-900 text-center">
+            <p className="text-[9px] text-zinc-800 font-black tracking-[0.4em] uppercase">
+                Powered by Google Lighthouse Protocol // Data Integrity Guaranteed
+            </p>
+        </div>
       </div>
     </div>
   );
 }
 
 // SUB-COMPONENTS
+function TrustBox({ icon, title, desc }: any) {
+    return (
+        <div className="border border-zinc-900 p-6 space-y-3 hover:border-zinc-700 transition-colors">
+            <div className="text-[#00ff41]">{icon}</div>
+            <h4 className="text-white text-[10px] font-black tracking-widest uppercase">{title}</h4>
+            <p className="text-zinc-600 text-[9px] font-bold leading-tight uppercase">{desc}</p>
+        </div>
+    )
+}
+
 function ScoreCircle({ label, score }: any) {
   const color = score >= 90 ? "#00ff41" : score >= 50 ? "#ffa400" : "#ff4e42";
   const dashArray = 264;
@@ -150,25 +196,25 @@ function ScoreCircle({ label, score }: any) {
 
   return (
     <div className="flex flex-col items-center gap-6 group">
-      <div className="relative h-36 w-36 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+      <div className="relative h-32 w-32 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
         <svg className="h-full w-full -rotate-90">
-          <circle cx="50%" cy="50%" r="42%" fill="transparent" stroke="#111111" strokeWidth="10" />
+          <circle cx="50%" cy="50%" r="42%" fill="transparent" stroke="#111111" strokeWidth="8" />
           <circle 
             cx="50%" cy="50%" r="42%" 
             fill="transparent" 
             stroke={color} 
-            strokeWidth="10" 
+            strokeWidth="8" 
             strokeDasharray={dashArray} 
             strokeDashoffset={dashOffset} 
-            strokeLinecap="round" 
+            strokeLinecap="square" 
             className="transition-all duration-[2.5s] ease-in-out" 
           />
         </svg>
         <div className="absolute flex flex-col items-center">
-          <span className="text-5xl font-black italic tracking-tighter" style={{ color }}>{score}</span>
+          <span className="text-4xl font-black italic tracking-tighter" style={{ color }}>{score}</span>
         </div>
       </div>
-      <span className="text-[11px] font-black uppercase text-zinc-500 tracking-[0.2em] group-hover:text-white transition-colors">{label}</span>
+      <span className="text-[10px] font-black uppercase text-zinc-500 tracking-[0.2em] group-hover:text-white transition-colors">{label}</span>
     </div>
   );
 }
@@ -181,16 +227,16 @@ function MetricBar({ label, audit }: any) {
     <div className="space-y-4 group">
       <div className="flex justify-between items-end">
         <div className="flex flex-col">
-          <span className="text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-1">Metric_Label</span>
-          <span className="text-sm font-black text-zinc-300 group-hover:text-white transition-colors uppercase">{label}</span>
+          <span className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mb-1 italic">Log::Metric</span>
+          <span className="text-xs font-black text-zinc-300 group-hover:text-white transition-colors uppercase">{label}</span>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-xl font-black text-white italic">{audit.displayValue}</span>
+          <span className="text-lg font-[1000] text-white italic">{audit.displayValue}</span>
         </div>
       </div>
-      <div className="h-1.5 w-full bg-zinc-900/50 rounded-full overflow-hidden border border-zinc-900">
+      <div className="h-1 w-full bg-zinc-900 rounded-none overflow-hidden border border-zinc-900">
         <div 
-          className={`h-full ${color} transition-all duration-[2s] ease-out shadow-[0_0_15px_rgba(0,255,65,0.2)]`} 
+          className={`h-full ${color} transition-all duration-[2s] ease-out`} 
           style={{ width: `${score * 100}%` }} 
         />
       </div>
