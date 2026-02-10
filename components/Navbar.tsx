@@ -1,84 +1,93 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
-import { Terminal, ChevronRight, Menu, X, Activity } from "lucide-react";
+import { ChevronRight, Menu, X, Search } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [command, setCommand] = useState("");
 
+  // 1. ЧИСТ СПИСЪК (БЕЗ РЪЧНИ СКОБИ)
   const links = [
     { name: "HOME", href: "/" },
-    { name: "CODE_LAB", href: "/code-laboratory" },
-    { name: "INSIGHTS", href: "/wanted-insights" },
+    { name: "CODE_LABORATORY", href: "/code-laboratory" },
+    { name: "DEV_PROJECTS", href: "/dev-projects" },
+    { name: "WANTED_INSIGHTS", href: "/wanted-insights" },
     { name: "SPEED_CHECK", href: "/speed-check" }
   ];
 
   return (
-    <nav className="sticky top-0 z-[100] bg-black border-b-2 border-[#00ff41]/30 px-6 py-4 font-mono">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <nav className="sticky top-0 z-[100] bg-black border-b border-[#00ff41]/10 px-6 py-4 font-mono">
+      <div className="max-w-[1800px] mx-auto flex justify-between items-center">
         
-        {/* LOGO */}
-        <Link href="/" className="group flex items-center">
-          <span className="text-[#00ff41] font-black text-xl tracking-tighter">
-            [WEB<span className="bg-[#00ff41] text-black px-1 group-hover:bg-white transition-all">WANTED</span>]
-          </span>
+        {/* ЛОГО: >_ WEB WANTED */}
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[#00ff41] font-black text-2xl animate-pulse tracking-tighter">{`>_`}</span>
+            <span className="text-white font-black tracking-tighter text-xl uppercase leading-none group-hover:text-[#00ff41] transition-colors">
+              WEB<span className="text-[#00ff41]">WANTED</span>
+            </span>
+          </div>
         </Link>
 
-        {/* DESKTOP MENU LINKS */}
-        <div className="hidden md:flex gap-1 items-center font-bold">
+        {/* 2. ДЕСКТОП МЕНЮ: ЗЕЛЕНИ СКОБИ И БЯЛ ТЕКСТ */}
+        <div className="hidden lg:flex gap-2 items-center mx-10">
           {links.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-[11px] text-[#00ff41]/60 hover:text-[#00ff41] transition-all px-4 py-1.5 border border-transparent hover:border-[#00ff41]/20 hover:bg-zinc-900"
+              className="text-[11px] font-black tracking-[0.2em] flex items-center px-3 py-2 italic group transition-all"
             >
-              [ {link.name} ]
+              {/* ЛЯВА СКОБА: ЗЕЛЕНА */}
+              <span className="text-[#00ff41] mr-1 transition-transform group-hover:-translate-x-1">[</span>
+              
+              {/* ТЕКСТ: БЯЛ (СВЕТВА В ЗЕЛЕНО ПРИ HOVER) */}
+              <span className="text-white group-hover:text-[#00ff41] transition-colors">
+                {link.name}
+              </span>
+              
+              {/* ДЯСНА СКОБА: ЗЕЛЕНА */}
+              <span className="text-[#00ff41] ml-1 transition-transform group-hover:translate-x-1">]</span>
             </Link>
           ))}
         </div>
 
-        {/* SYSTEM STATUS (Desktop Only) */}
-        <div className="hidden lg:flex items-center gap-4 text-[10px]">
-          <div className="flex items-center gap-2 text-pink-500 animate-pulse font-black">
-            <span className="w-2 h-2 bg-pink-500 shadow-[0_0_8px_#ec4899]"></span>
-            BREACH_DETECTED
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 px-3 py-1 flex items-center gap-2">
-            <ChevronRight size={12} className="text-[#00ff41]" />
-            <span className="text-zinc-500 uppercase">root@wanted:~$</span>
+        {/* ТЕРМИНАЛНА ТЪРСАЧКА RUN_CMD */}
+        <div className="hidden md:flex items-center group/search border-l border-zinc-900 pl-6">
+          <div className="flex items-center bg-zinc-950/50 border border-zinc-800 rounded-sm px-3 py-1.5 focus-within:border-[#00ff41]/40 transition-all">
+            <Search size={14} className="text-zinc-700 group-focus-within/search:text-[#00ff41] transition-colors" />
+            <input 
+              className="bg-transparent border-none outline-none ml-3 text-[10px] font-black text-[#00ff41] uppercase w-28 lg:w-40 placeholder:text-zinc-800 tracking-widest italic"
+              placeholder="RUN_CMD..."
+              value={command}
+              onChange={(e) => setCommand(e.target.value)}
+            />
           </div>
         </div>
 
-        {/* MOBILE MENU BUTTON (Visible only on small screens) */}
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-[#00ff41] p-1 border border-[#00ff41]/20 bg-zinc-900/50"
-        >
+        {/* МОБИЛЕН БУТОН */}
+        <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-[#00ff41] p-1 border border-[#00ff41]/20">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* MOBILE MENU OVERLAY */}
+      {/* МОБИЛНО МЕНЮ (СЪС СЪЩИЯ СТИЛ) */}
       {isOpen && (
-        <div className="fixed inset-0 top-[66px] bg-black/95 backdrop-blur-md z-[99] md:hidden animate-in fade-in slide-in-from-top-5 duration-300">
-          <div className="flex flex-col p-8 gap-4">
-            <div className="text-[10px] text-zinc-600 mb-4 tracking-[0.3em] flex items-center gap-2">
-               <Activity size={10} className="animate-pulse" /> ACCESSING_SYSTEM_NODES...
-            </div>
+        <div className="fixed inset-0 top-[65px] bg-black/98 z-[99] lg:hidden p-8 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="flex flex-col gap-4">
             {links.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-2xl font-black text-[#00ff41]/60 hover:text-[#00ff41] border-b border-[#00ff41]/10 py-4 transition-all flex justify-between items-center group"
+                className="text-2xl font-black flex items-center italic group"
               >
-                {link.name}
-                <ChevronRight className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="text-[#00ff41] mr-2">[</span>
+                <span className="text-white group-hover:text-[#00ff41]">{link.name}</span>
+                <span className="text-[#00ff41] ml-2">]</span>
               </Link>
             ))}
-            <div className="mt-10 p-4 border border-pink-500/20 bg-pink-500/5 text-[10px] text-pink-500 font-black animate-pulse">
-              [!] ALERT: MOBILE_SESSION_ENCRYPTED
-            </div>
           </div>
         </div>
       )}
