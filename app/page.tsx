@@ -23,7 +23,6 @@ export default function Home() {
     }
     setIsSubmitting(true)
     
-    // Simulate API delay
     setTimeout(() => {
       toast({
         title: "[ ACCESS_GRANTED ]",
@@ -41,14 +40,22 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="mb-16 md:mb-32 border-b border-[#00ff41]/10 pb-12 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="order-2 lg:order-1 space-y-6 md:space-y-8">
+            <div className="order-2 lg:order-1 space-y-6 md:space-y-10">
               <div className="text-[9px] md:text-xs text-pink-500 font-black animate-pulse tracking-[0.3em] md:tracking-[0.4em] uppercase flex items-center gap-2">
                 <Activity size={14} /> $ INITIALIZING_WANTED_PROTOCOL_V3
               </div>
               
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.85] tracking-tighter text-white uppercase italic">
-                Engineering <br className="hidden sm:block"/> 
-                The_<span className="text-[#00ff41]">Cyber</span>_Future
+              {/* FIXED RESPONSIVE HEADING */}
+              <h1 className="text-white font-[900] italic tracking-tighter uppercase leading-[0.85]">
+                <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
+                  ENGINEERING
+                </span>
+                <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
+                  THE_<span className="text-[#00ff41]">CYBER</span>
+                </span>
+                <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]">
+                  FUTURE
+                </span>
               </h1>
 
               <p className="text-zinc-500 text-[10px] md:text-base font-bold leading-relaxed max-w-xl uppercase border-l-2 border-[#00ff41]/20 pl-4">
@@ -70,7 +77,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 relative h-[200px] sm:h-[300px] md:h-[450px] border-2 border-[#00ff41]/20 bg-zinc-950 group overflow-hidden">
+            {/* SYSTEM VISUAL */}
+            <div className="order-1 lg:order-2 relative h-[250px] sm:h-[350px] md:h-[500px] border-2 border-[#00ff41]/20 bg-zinc-950 group overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?q=80&w=1200&h=800&auto=format&fit=crop"
                 alt="System Visualization"
@@ -168,7 +176,7 @@ export default function Home() {
               <Github size={14} /> [ GITHUB ]
             </Link>
             <Link href="#" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
-               [ UPWORK ]
+               [ UPWORK AGENCY PROFILE ]
             </Link>
             <Link href="mailto:contact@webwanted.net" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
                [ EMAIL ]

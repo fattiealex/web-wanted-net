@@ -1,237 +1,111 @@
-"use client"
+import { ExternalLink, Terminal, Cpu, Home, ArrowUpRight, Zap } from "lucide-react";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { BrainCircuit, Cpu, Eye, Github, Linkedin, Mail, Rss, Twitter } from "lucide-react"
-import { useRouter } from "next/navigation"
-
-// Static topic data for GitHub Pages
-const topics = [
-  {
-    title: "Generative AI",
-    description: "Explore the latest advancements in generative AI models, including GANs, diffusion models, and more.",
-    icon: <BrainCircuit className="h-6 w-6" />,
-    count: 12,
-    slug: "generative-ai",
-  },
-  {
-    title: "Computer Vision",
-    description:
-      "Discover how AI is revolutionizing image and video analysis, object detection, and scene understanding.",
-    icon: <Eye className="h-6 w-6" />,
-    count: 8,
-    slug: "computer-vision",
-  },
-  {
-    title: "Deep Learning",
-    description: "Learn about neural network architectures, training techniques, and applications in various domains.",
-    icon: <Cpu className="h-6 w-6" />,
-    count: 15,
-    slug: "deep-learning",
-  },
-  {
-    title: "AI Ethics",
-    description: "Examine the ethical implications of AI development and deployment in society.",
-    icon: <BrainCircuit className="h-6 w-6" />,
-    count: 6,
-    slug: "ai-ethics",
-  },
-  {
-    title: "Natural Language Processing",
-    description: "Explore how AI understands, generates, and interacts with human language.",
-    icon: <BrainCircuit className="h-6 w-6" />,
-    count: 9,
-    slug: "nlp",
-  },
-  {
-    title: "AI Research",
-    description: "Stay updated with the latest research papers, breakthroughs, and academic developments in AI.",
-    icon: <BrainCircuit className="h-6 w-6" />,
-    count: 11,
-    slug: "ai-research",
-  },
-]
-
-export default function TopicsPage() {
-  const router = useRouter()
-
-  const handleSubscribeClick = () => {
-    router.push("/#newsletter")
-  }
+export default function DevProjects() {
+  const projects = [
+    {
+      id: "01",
+      title: "SOFIA_VALUATION_LAB",
+      status: "LIVE",
+      description: "Smart valuation engine for the real estate market. High-precision calculation logic transformed from a legacy WordPress monolith into a high-performance Next.js application.",
+      tech: ["Next.js 14", "TypeScript", "Tailwind CSS"],
+      link: "https://sofia-property-valuation.vercel.app/",
+      architecture: "Client-Side Hydration // Calculation Engine v1.0.4",
+      icon: <Home size={20} className="text-[#00ff41]" />
+    },
+    {
+      id: "02",
+      title: "AGK_COMMERCE_CORE",
+      status: "BUILDING",
+      description: "Headless E-commerce infrastructure for digital audio assets. Leveraging MedusaJS for scalable inventory management and secure automated distribution.",
+      tech: ["MedusaJS", "PostgreSQL", "Stripe API"],
+      link: "#",
+      architecture: "Headless Backend // REST API Integration",
+      icon: <Zap size={20} className="text-[#00ff41]" />
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="container mx-auto py-6">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tighter">
-            Neural<span className="text-purple-500">Pulse</span>
-          </Link>
-          <nav className="hidden md:flex items-center space-x-6 text-sm">
-            <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-              Home
-            </Link>
-            <Link href="/articles/" className="text-gray-400 hover:text-white transition-colors">
-              Articles
-            </Link>
-            <Link href="/topics/" className="text-white transition-colors border-b-2 border-purple-500 pb-1">
-              Topics
-            </Link>
-            <Link href="/about/" className="text-gray-400 hover:text-white transition-colors">
-              About
-            </Link>
-          </nav>
-          <Button
-            variant="outline"
-            className="border-purple-500 text-purple-500 hover:bg-purple-950 hover:text-white"
-            onClick={handleSubscribeClick}
-          >
-            Subscribe
-          </Button>
+    <main className="min-h-screen bg-black pt-32 pb-20 px-6 font-mono text-white">
+      <div className="max-w-6xl mx-auto">
+        {/* HEADER */}
+        <div className="mb-20 border-l-2 border-[#00ff41] pl-6 py-2">
+          <h1 className="text-6xl font-[900] italic tracking-tighter uppercase leading-none">
+            DEV_<span className="text-[#00ff41]">ARCHIVE</span>
+          </h1>
+          <p className="text-zinc-600 text-[10px] tracking-[0.4em] mt-2 uppercase font-bold">
+            // SYSTEM_RECORDS // ACCESS_LEVEL_01
+          </p>
         </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-12">
-        <section className="mb-12">
-          <h1 className="text-4xl font-bold mb-8">Topics</h1>
+        {/* PROJECTS LIST */}
+        <div className="grid gap-20">
+          {projects.map((p) => (
+            <div key={p.id} className="group relative">
+              <div className="grid md:grid-cols-[1fr_350px] gap-12 border-b border-zinc-900 pb-16">
+                
+                {/* INFO SIDE */}
+                <div>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-2 bg-[#00ff41]/5 border border-[#00ff41]/20">
+                      {p.icon}
+                    </div>
+                    <h2 className="text-4xl font-[900] italic uppercase group-hover:text-[#00ff41] transition-colors tracking-tight">
+                      {p.title}
+                    </h2>
+                  </div>
+                  
+                  <p className="text-zinc-400 text-lg mb-8 italic leading-relaxed max-w-2xl">
+                    {p.description}
+                  </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topics.map((topic, index) => (
-              <TopicCard
-                key={index}
-                title={topic.title}
-                description={topic.description}
-                icon={topic.icon}
-                count={topic.count}
-                slug={topic.slug}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
+                  <div className="flex gap-4">
+                    <a 
+                      href={p.link} 
+                      target="_blank" 
+                      className="group/link flex items-center gap-2 bg-[#00ff41] text-black px-6 py-3 font-black text-xs hover:bg-white transition-all uppercase italic"
+                    >
+                      EXECUTE_LINK <ArrowUpRight size={16} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                    </a>
+                  </div>
+                </div>
 
-      <footer className="border-t border-gray-800 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <Link href="/" className="text-xl font-bold tracking-tighter">
-                Neural<span className="text-purple-500">Pulse</span>
-              </Link>
-              <p className="text-gray-400 text-sm">
-                Exploring the cutting edge of artificial intelligence and machine learning.
-              </p>
-              <div className="flex space-x-4">
-                <Link href="#" className="text-gray-400 hover:text-white">
-                  <Twitter className="h-5 w-5" />
-                </Link>
-                <Link href="#" className="text-gray-400 hover:text-white">
-                  <Github className="h-5 w-5" />
-                </Link>
-                <Link href="#" className="text-gray-400 hover:text-white">
-                  <Linkedin className="h-5 w-5" />
-                </Link>
-                <Link href="#" className="text-gray-400 hover:text-white">
-                  <Rss className="h-5 w-5" />
-                </Link>
+                {/* TECH SIDE */}
+                <div className="bg-zinc-950/50 border border-zinc-900 p-6 font-mono relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10">
+                    <Terminal size={40} className="text-[#00ff41]" />
+                  </div>
+                  
+                  <div className="space-y-6 relative z-10">
+                    <div>
+                      <span className="text-[9px] text-zinc-600 uppercase tracking-widest block mb-2">Build_Stack</span>
+                      <div className="flex flex-wrap gap-2">
+                        {p.tech.map(t => (
+                          <span key={t} className="text-[10px] text-[#00ff41] bg-[#00ff41]/5 px-2 py-1 border border-[#00ff41]/10">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-zinc-900">
+                      <span className="text-[9px] text-zinc-600 uppercase tracking-widest block mb-2">Architecture_Log</span>
+                      <p className="text-[11px] text-zinc-500 italic leading-snug font-bold">
+                        {`> ${p.architecture}`}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className={`w-1.5 h-1.5 rounded-full ${p.status === 'LIVE' ? 'bg-[#00ff41] animate-pulse' : 'bg-orange-500 opacity-50'}`} />
+                      <span className="text-[10px] text-zinc-400 font-bold tracking-widest uppercase">Status: {p.status}</span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
-            <div>
-              <h3 className="font-medium mb-4">Topics</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Artificial Intelligence
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Generative AI
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Computer Vision
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Deep Learning
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Machine Learning
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-medium mb-4">Resources</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Tutorials
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Research Papers
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Code Samples
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Datasets
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Tools
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-medium mb-4">Contact</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  <span>ameyaudeshmukh@gmail.com</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-12 pt-6 text-sm text-gray-400">
-            <p>© {new Date().getFullYear()} NeuralPulse. All rights reserved.</p>
-          </div>
+          ))}
         </div>
-      </footer>
-    </div>
-  )
-}
-
-function TopicCard({ title, description, icon, count, slug = "" }) {
-  return (
-    <Link href={`/articles/`} className="group">
-      <Card className="bg-gray-900 border-gray-800 hover:border-purple-500/50 transition-colors h-full">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="bg-purple-500/10 p-3 rounded-lg text-purple-500">{icon}</div>
-            <div className="bg-gray-800 px-3 py-1 rounded-full text-sm">{count} articles</div>
-          </div>
-          <CardTitle className="text-xl mt-4 group-hover:text-purple-400 transition-colors">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="text-gray-400">{description}</CardDescription>
-        </CardContent>
-        <CardFooter>
-          <span className="text-purple-500 text-sm group-hover:text-purple-400 transition-colors">View articles →</span>
-        </CardFooter>
-      </Card>
-    </Link>
-  )
+      </div>
+    </main>
+  );
 }

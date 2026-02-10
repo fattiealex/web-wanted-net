@@ -1,131 +1,33 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft, BrainCircuit, Clock, Share2, Twitter, Facebook, Linkedin } from "lucide-react"
-import { Button } from "@/components/ui/button"
-
-// 1. Данните (Пълен списък за билда)
-const blogPosts: Record<string, any> = {
-  "evolution-of-gans": {
-    title: "The Evolution of Generative Adversarial Networks: From GAN to StyleGAN-3",
-    date: "May 15, 2023",
-    author: "Dr. Alex Chen",
-    category: "GenAI",
-    readTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<h2>The Evolution</h2><p>GANs have revolutionized the field of AI...</p>`
-  },
-  "multimodal-ai-models": {
-    title: "The Rise of Multimodal AI Models: Bridging Text, Image, and Beyond",
-    date: "February 5, 2024",
-    author: "Dr. Michael Zhang",
-    category: "AI Research",
-    readTime: "9 min read",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>Multimodal models are the future...</p>`
-  },
-  "ai-in-2025": {
-    title: "AI in 2025: Transforming Daily Life",
-    date: "October 18, 2023",
-    author: "Dr. Sarah Johnson",
-    category: "Future Tech",
-    readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>AI is now part of our pockets...</p>`
-  },
-  "deep-learning-nlp": {
-    title: "Deep Learning for Natural Language Processing",
-    date: "November 7, 2024",
-    author: "Dr. Lisa Park",
-    category: "NLP",
-    readTime: "9 min read",
-    image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>NLP advances rapidly...</p>`
-  },
-  "future-of-ai-research": {
-    title: "The Future of AI Research: What's Next?",
-    date: "February 28, 2025",
-    author: "Dr. Thomas Anderson",
-    category: "Future of AI",
-    readTime: "10 min read",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>Exploring the next frontier...</p>`
-  },
-  "ethical-considerations-genai": {
-    title: "Ethical Considerations in Generative AI",
-    date: "January 14, 2025",
-    author: "Dr. Maya Patel",
-    category: "AI Ethics",
-    readTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>Ethics remain the core...</p>`
-  },
-  "ai-regulation-landscape-2025": {
-    title: "AI Regulation Landscape in 2025: Global Policies",
-    date: "March 1, 2025",
-    author: "Dr. Elena Kowalski",
-    category: "AI Policy",
-    readTime: "11 min read",
-    image: "https://images.unsplash.com/photo-1589254065909-b7086229d08c?q=80&w=2000&h=1000&auto=format&fit=crop",
-    content: `<p>The global race for regulation...</p>`
-  }
-}
-
-// 2. Генератор на статични пътища (Задължително за Vercel)
-export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((slug) => ({
-    slug: slug,
-  }))
-}
-
-// 3. Основен компонент (Server Component по подразбиране)
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = blogPosts[params.slug]
-
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <h1 className="text-2xl">Статията не е намерена.</h1>
-      </div>
-    )
-  }
+export default function CodeLaboratory() {
+  const experiments = [
+    { id: "01", title: "MOTION_GLITCH_ENGINE", status: "STABLE", tech: "GSAP" },
+    { id: "02", title: "NEURAL_INTERFACE_V3", status: "TESTING", tech: "THREE.JS" },
+    { id: "03", title: "DATABASE_ENCRYPTION_LAYER", status: "STABLE", tech: "PRISMA" },
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="container mx-auto py-6 px-4">
-        <Link href="/" className="text-xl font-bold tracking-tighter">
-          Neural<span className="text-purple-500">Pulse</span>
-        </Link>
-      </header>
+    <main className="min-h-screen bg-black pt-32 px-6">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-white text-6xl font-black italic tracking-tighter mb-4 uppercase">
+          CODE_<span className="text-[#00ff41]">LABORATORY</span>
+        </h1>
+        <p className="text-zinc-500 mb-12 font-mono uppercase text-sm tracking-widest">
+          // ACCESSING_EXPERIMENTAL_RESOURCES...
+        </p>
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto">
-          <Link href="/" className="inline-flex items-center text-gray-400 hover:text-white mb-8">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Назад
-          </Link>
-
-          <div className="flex items-center gap-2 text-sm text-purple-500 mb-4">
-            <BrainCircuit className="h-5 w-5" />
-            <span>{post.category}</span>
-          </div>
-
-          <h1 className="text-3xl md:text-5xl font-bold mb-6">{post.title}</h1>
-
-          <div className="flex items-center gap-4 text-sm text-gray-400 mb-8">
-            <Clock className="h-4 w-4" /> <span>{post.readTime}</span>
-            <span>{post.date}</span>
-            <span>By {post.author}</span>
-          </div>
-
-          <div className="relative aspect-video mb-12 rounded-xl overflow-hidden border border-gray-800">
-            <Image src={post.image} alt={post.title} fill className="object-cover" priority />
-          </div>
-
-          <article 
-            className="prose prose-invert prose-purple max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+        <div className="grid gap-6">
+          {experiments.map((exp) => (
+            <div key={exp.id} className="border border-zinc-800 p-6 bg-zinc-950/50 group hover:border-[#00ff41]/50 transition-all cursor-crosshair">
+              <div className="flex justify-between items-center">
+                <span className="text-[#00ff41] font-mono text-xs tracking-widest">EXP_{exp.id}</span>
+                <span className="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-[10px] font-black">{exp.status}</span>
+              </div>
+              <h2 className="text-white text-2xl font-black mt-2 group-hover:text-[#00ff41] transition-colors italic">{exp.title}</h2>
+              <div className="mt-4 text-[10px] text-zinc-600 font-mono tracking-widest uppercase">TECH_STACK: {exp.tech}</div>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
-  )
+      </div>
+    </main>
+  );
 }
