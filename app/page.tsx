@@ -5,6 +5,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { BrainCircuit, Cpu, Github, Terminal, Gauge, ChevronRight, Activity } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+// ВНИМАНИЕ: Импортираме новия компонент тук
+import SecureCV from "@/components/SecureCV"
 
 export default function Home() {
   const [email, setEmail] = useState("")
@@ -45,7 +47,6 @@ export default function Home() {
                 <Activity size={14} /> $ INITIALIZING_WANTED_PROTOCOL_V3
               </div>
               
-              {/* FIXED RESPONSIVE HEADING */}
               <h1 className="text-white font-[900] italic tracking-tighter uppercase leading-[0.85]">
                 <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
                   ENGINEERING
@@ -77,7 +78,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SYSTEM VISUAL */}
             <div className="order-1 lg:order-2 relative h-[250px] sm:h-[350px] md:h-[500px] border-2 border-[#00ff41]/20 bg-zinc-950 group overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?q=80&w=1200&h=800&auto=format&fit=crop"
@@ -165,12 +165,19 @@ export default function Home() {
         </section>
       </main>
 
+      {/* FOOTER - ДОБАВЯМЕ SECURE CV ТУК */}
       <footer className="border-t-2 border-[#00ff41]/10 py-12 md:py-16 bg-black relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black px-4 -translate-y-1/2 text-[8px] md:text-[10px] text-zinc-700 font-black tracking-[0.3em] uppercase">
           END_OF_TRANSMISSION
         </div>
         
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center flex flex-col items-center">
+          
+          {/* ТУК Е НОВАТА СЕКЦИЯ ЗА СИВИТО */}
+          <div className="mb-12">
+            <SecureCV />
+          </div>
+
           <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 mb-12">
             <Link href="https://github.com/fattiealex" target="_blank" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
               <Github size={14} /> [ GITHUB ]
