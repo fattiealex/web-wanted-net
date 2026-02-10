@@ -3,10 +3,10 @@
 import React, { useState, type FormEvent } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { BrainCircuit, Cpu, Github, Terminal, Gauge, ChevronRight, Activity } from "lucide-react"
+import { BrainCircuit, Cpu, Github, Terminal, Gauge, ChevronRight, Activity, Sparkles, TrendingUp } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
-// ВНИМАНИЕ: Импортираме новия компонент тук
 import SecureCV from "@/components/SecureCV"
+import CookieBanner from "@/components/CookieBanner"
 
 export default function Home() {
   const [email, setEmail] = useState("")
@@ -37,70 +37,80 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-[#00ff41] font-mono selection:bg-[#00ff41] selection:text-black">
+      <CookieBanner />
+
       <main className="container mx-auto px-4 py-6 md:py-12">
         
-        {/* HERO SECTION */}
-        <section className="mb-16 md:mb-32 border-b border-[#00ff41]/10 pb-12 md:pb-20">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="order-2 lg:order-1 space-y-6 md:space-y-10">
-              <div className="text-[9px] md:text-xs text-pink-500 font-black animate-pulse tracking-[0.3em] md:tracking-[0.4em] uppercase flex items-center gap-2">
-                <Activity size={14} /> $ INITIALIZING_WANTED_PROTOCOL_V3
+        {/* HERO SECTION - RE-ENGINEERED FOR BLOG/TRENDS FOCUS */}
+        <section className="mt-20 mb-16 md:mb-32 border-b border-[#00ff41]/10 pb-12 md:pb-20">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
+            
+            <div className="order-2 lg:order-1 space-y-6 md:space-y-8">
+              <div className="inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-3 py-1 rounded-full">
+                <Sparkles size={14} className="text-pink-500 animate-pulse" />
+                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                  Next-Gen Web Architecture // Trends & Insights
+                </span>
               </div>
               
-              <h1 className="text-white font-[900] italic tracking-tighter uppercase leading-[0.85]">
-                <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
-                  ENGINEERING
-                </span>
-                <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
-                  THE_<span className="text-[#00ff41]">CYBER</span>
-                </span>
-                <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]">
-                  FUTURE
-                </span>
-              </h1>
+              <div className="space-y-2">
+                <h1 className="text-white font-[1000] italic tracking-tighter uppercase leading-[0.9]">
+                  <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
+                    DECODING
+                  </span>
+                  <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#00ff41] drop-shadow-[0_0_15px_rgba(0,255,65,0.3)]">
+                    THE_FUTURE
+                  </span>
+                </h1>
+              </div>
 
-              <p className="text-zinc-500 text-[10px] md:text-base font-bold leading-relaxed max-w-xl uppercase border-l-2 border-[#00ff41]/20 pl-4">
-                We don&apos;t just build websites. We code high-yield digital assets. 
-                From Medusa Headless ecosystems to ultra-fast Next.js architectures.
+              <p className="text-zinc-500 text-[10px] md:text-sm font-bold leading-relaxed max-w-xl uppercase border-l-2 border-[#00ff41]/20 pl-4">
+                Analyzing the shift in modern web engineering. From 
+                <span className="text-white"> Headless Ecosystems</span> to 
+                <span className="text-white"> AI-Driven Architectures</span>. 
+                We don&apos;t just build—we architect digital assets.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/dev-projects" className="w-full sm:w-auto">
-                  <button className="w-full bg-[#00ff41] text-black px-8 py-4 font-black text-xs md:text-sm hover:bg-white transition-all shadow-[4px_4px_0px_#003b00] uppercase italic">
-                    [ VIEW_PROJECTS ]
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/wanted-insights" className="w-full sm:w-auto">
+                  <button className="w-full bg-[#00ff41] text-black px-8 py-4 font-black text-xs hover:bg-white transition-all shadow-[4px_4px_0px_#003b00] uppercase italic flex items-center justify-center gap-2">
+                    EXPLORE_TRENDS <TrendingUp size={16} />
                   </button>
                 </Link>
-                <Link href="/speed-check" className="w-full sm:w-auto">
-                  <button className="w-full border-2 border-zinc-800 text-zinc-400 px-8 py-4 font-black text-xs md:text-sm hover:border-[#00ff41] hover:text-[#00ff41] transition-all uppercase italic text-center">
-                    Run_Diagnostics
+                <Link href="/dev-projects" className="w-full sm:w-auto">
+                  <button className="w-full border-2 border-zinc-800 text-zinc-400 px-8 py-4 font-black text-xs hover:border-[#00ff41] hover:text-[#00ff41] transition-all uppercase italic text-center">
+                    Project_Archive
                   </button>
                 </Link>
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 relative h-[250px] sm:h-[350px] md:h-[500px] border-2 border-[#00ff41]/20 bg-zinc-950 group overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?q=80&w=1200&h=800&auto=format&fit=crop"
-                alt="System Visualization"
-                fill
-                priority
-                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-40 group-hover:opacity-100"
-              />
-              <div className="absolute bottom-4 right-4 bg-black/80 border border-[#00ff41]/30 p-2 text-[8px] md:text-[10px] text-white">
+            {/* SYSTEM VISUAL - FIXED ASPECT RATIO */}
+            <div className="order-1 lg:order-2 relative h-[300px] md:h-[450px] border border-zinc-800 bg-zinc-950 group overflow-hidden p-2">
+              <div className="relative h-full w-full overflow-hidden">
+                 <Image
+                  src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?q=80&w=1200&h=800&auto=format&fit=crop"
+                  alt="System Visualization"
+                  fill
+                  priority
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-30 group-hover:opacity-100 scale-105 group-hover:scale-100"
+                />
+              </div>
+              <div className="absolute bottom-6 right-6 bg-black/90 border border-zinc-800 p-2 text-[8px] md:text-[10px] text-white backdrop-blur-sm">
                 <Terminal size={10} className="inline mr-2 text-[#00ff41]"/> SYSTEM_VISUAL_01.JPG
               </div>
             </div>
           </div>
         </section>
 
-        {/* INSIGHTS PREVIEW */}
+        {/* INSIGHTS PREVIEW (Сега стои по-добре спрямо новия Hero) */}
         <section className="mb-16 md:mb-32">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 md:mb-12 border-l-4 border-[#00ff41] bg-zinc-950/50 p-4 md:p-6 gap-4">
             <h2 className="text-lg md:text-2xl font-black uppercase tracking-tighter text-white italic">
-              [ WANTED_INSIGHTS_DATABASE ]
+              [ LATEST_MARKET_INTELLIGENCE ]
             </h2>
             <Link href="/wanted-insights" className="text-[#00ff41] hover:text-white text-[9px] font-black flex items-center gap-2 tracking-[0.2em] uppercase transition-all">
-              Access_All_Intel <ChevronRight className="h-4 w-4" />
+              Full_Archive <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
 
@@ -165,32 +175,32 @@ export default function Home() {
         </section>
       </main>
 
-      {/* FOOTER - ДОБАВЯМЕ SECURE CV ТУК */}
       <footer className="border-t-2 border-[#00ff41]/10 py-12 md:py-16 bg-black relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black px-4 -translate-y-1/2 text-[8px] md:text-[10px] text-zinc-700 font-black tracking-[0.3em] uppercase">
           END_OF_TRANSMISSION
         </div>
         
         <div className="container mx-auto px-4 text-center flex flex-col items-center">
-          
-          {/* ТУК Е НОВАТА СЕКЦИЯ ЗА СИВИТО */}
           <div className="mb-12">
             <SecureCV />
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 mb-12">
-            <Link href="https://github.com/fattiealex" target="_blank" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 mb-12 uppercase font-black text-[10px] tracking-widest">
+            <Link href="https://github.com/fattiealex" target="_blank" className="text-zinc-600 hover:text-[#00ff41] transition-all flex items-center gap-2">
               <Github size={14} /> [ GITHUB ]
             </Link>
-            <Link href="#" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
-               [ UPWORK AGENCY PROFILE ]
+            <Link href="/privacy" className="text-zinc-600 hover:text-[#00ff41] transition-all">
+               [ PRIVACY_POLICY ]
             </Link>
-            <Link href="mailto:contact@webwanted.net" className="text-zinc-600 hover:text-[#00ff41] transition-all uppercase font-black text-[10px] tracking-widest flex items-center gap-2">
+            <Link href="/cookies" className="text-zinc-600 hover:text-[#00ff41] transition-all">
+               [ COOKIE_POLICY ]
+            </Link>
+            <Link href="mailto:contact@webwanted.net" className="text-zinc-600 hover:text-[#00ff41] transition-all flex items-center gap-2">
                [ EMAIL ]
             </Link>
           </div>
           <div className="text-zinc-800 text-[8px] md:text-[10px] font-black tracking-[0.2em] uppercase">
-             © {new Date().getFullYear()} WEBWANTED.NET // AUTHENTIC_ASSET_LOG
+              © {new Date().getFullYear()} WEBWANTED.NET // AUTHENTIC_ASSET_LOG
           </div>
         </div>
       </footer>
